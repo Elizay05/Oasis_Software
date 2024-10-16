@@ -165,7 +165,10 @@ class Mesa(models.Model):
     codigo_qr = models.CharField(max_length=100, unique=True)
     qr_imagen = models.ImageField(upload_to='mesas_qr_codes/', blank=True, null=True)
     usuario = models.ForeignKey('Usuario', on_delete=models.CASCADE, null=True, blank=True, default=None)
-    
+    total_ganancia = models.IntegerField(default=0)
+    ganancia_reserva = models.IntegerField(default=0)
+    pedidos = models.IntegerField(default=0)
+
     def __str__(self):
         return f'{self.id}'
 
@@ -186,6 +189,12 @@ class Mesa(models.Model):
 
         
         super().save(*args, **kwargs)
+    def ganancias_anuales(self):
+        # Calcular las ganancias anuales
+        ganancias = 0
+        for pago in Pago.objects.filter(mesa=self, mostrar_en_reporte=True):
+            ganancias += pago.total_pagado
+        return ganancias
 
 class Reserva(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, default=None)
@@ -359,7 +368,17 @@ class DetalleVenta(models.Model):
 
 	def __str__(self):
 		return f"{self.id} - {self.venta}"
-    
+
+class Pago(models.Model):
+    mesa = models.ForeignKey(Mesa, on_delete=models.CASCADE)
+    total_pagado = models.DecimalField(max_digits=10, decimal_places=0,default=0)
+    fecha_pago = models.DateTimeField()
+    mostrar_en_reporte = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f'Pago de {self.mesa.nombre} - {self.total_pagado}'
+
+
 """
 # ---------------------------------------------------------------------------------
 from django.conf import settings
