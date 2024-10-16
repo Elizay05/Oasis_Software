@@ -1,0 +1,45 @@
+{% extends 'Oasis/barNavInicio.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block titulo %}Producto Info{% endblock %}
+
+{% block contenedor %}
+    <!-- Header Start -->
+    <div class="jumbotron jumbotron-fluid bg-jumbotron-menu" style="margin-bottom: 90px;">
+        <div class="container text-center py-5">
+            <h3 class="text-white display-3 mb-4">Menú</h3>
+            <div class="d-inline-flex align-items-center text-white">
+                <p class="m-0"><a class="text-white" href="{% url 'index' %}">Inicio</a></p>
+                <i class="far fa-circle px-3"></i>
+                <p class="m-0">Menú</p>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+
+
+    <!-- Detalle Producto Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-6" style="min-height: 500px;">
+            <div class="position-relative h-100">
+                <img class="position-absolute w-100 h-100" src="{{ producto.foto.url }}" style="object-fit: cover;">
+            </div>
+            </div>
+            <div class="col-lg-6 pt-5 pb-lg-5">
+            <div class="hours-text bg-light p-4 p-lg-5 my-lg-5">
+                <a class="text-decoration-none" href="{% url 'front_productos' %}?cat={{ producto.categoria.id }}"><h6 class="d-inline-block text-white text-uppercase bg-primary py-1 px-2">{{ producto.categoria }}</h6></a>
+                <h1 class="mb-4">{{ producto.nombre }}</h1>
+                <p>{{ producto.descripcion }}</p>
+                <h5><strong>${{ producto.precio|intcomma }}</strong></h5>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- Detalle Producto End -->
+
+{% endblock %}

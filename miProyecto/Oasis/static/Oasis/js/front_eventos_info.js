@@ -15,9 +15,9 @@ document.addEventListener("DOMContentLoaded", function() {
             const totalEntradaVip = precioEntradaVip * cantidadEntradaVip;
             const totalGeneral = totalEntradaGeneral + totalEntradaVip;
 
-            document.getElementById('precio-entrada-general').textContent = totalEntradaGeneral.toLocaleString('es-CO', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 });
-            document.getElementById('precio-entrada-vip').textContent = totalEntradaVip.toLocaleString('es-CO', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 });
-            document.getElementById('total-general').textContent = totalGeneral.toLocaleString('es-CO', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+            document.getElementById('precio-entrada-general').textContent = '$' + totalEntradaGeneral.toLocaleString('es-CO', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+            document.getElementById('precio-entrada-vip').textContent = '$' + totalEntradaVip.toLocaleString('es-CO', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+            document.getElementById('total-general').textContent = 'Total $' + totalGeneral.toLocaleString('es-CO', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 });
         }
     }
 
@@ -62,9 +62,9 @@ document.addEventListener("DOMContentLoaded", function() {
         const botonComprar = document.getElementById('botonComprar');
 
         if (parseInt(cantidadGeneral) > 0 || parseInt(cantidadVip) > 0) {
-            botonComprar.disabled = false;
+            botonComprar.className = "btn btn-primary";
         } else {
-            botonComprar.disabled = true;
+            botonComprar.className = "btn btn-dark disabled";
         }
     }
 
@@ -97,8 +97,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 const messageDiv = document.createElement('div');
                 messageDiv.classList.add('alert');
                 if (message.message_type === 'success') {
+
+                    // Cerrar el modal simulando el clic en el botón de cerrar
+                    const closeModalButton = document.querySelector('#confirmModal .btn-close');
+                    closeModalButton.click();
+
                     messageDiv.classList.add('alert-success');
                     alert(message.message);
+
+
                 } else if (message.message_type === 'error') {
                     messageDiv.classList.add('alert-danger');
                     alert(message.message);
@@ -134,18 +141,16 @@ document.addEventListener("DOMContentLoaded", function() {
         const botonReservar = document.getElementById('botonReservar');
 
         if (selectMesa.value === '') {
-            botonReservar.disabled = true;
+            botonReservar.className = "btn btn-dark disabled";
         } else {
-            botonReservar.disabled = false;
+            botonReservar.className = "btn btn-primary";
         }
     }
 
     function mostrarDetalleMesa() {
         const selectMesa = document.querySelector('select[name="mesa"]');
         const nombreMesaSeleccionada = document.getElementById('nombre-mesa-seleccionada');
-        const nombreeMesaSeleccionada = document.getElementById('nombree-mesa-seleccionada');
         const capacidadMesaSeleccionada = document.getElementById('capacidad-mesa-seleccionada');
-        const capacidaadMesaSeleccionada = document.getElementById('capacidaad-mesa-seleccionada');
         const idMesaSeleccionada = document.getElementById('id-mesa-seleccionada');
         const totalReservaMesa = document.getElementById('total-reserva-mesa');
         const totalFrontReservaMesa = document.getElementById('total-front-reserva-mesa');
@@ -161,12 +166,10 @@ document.addEventListener("DOMContentLoaded", function() {
         const total = mesaPrecio + totalEntradas;
 
         nombreMesaSeleccionada.textContent = mesaNombre;
-        nombreeMesaSeleccionada.textContent = mesaNombre;
         capacidadMesaSeleccionada.textContent = mesaCapacidad;
-        capacidaadMesaSeleccionada.textContent = mesaCapacidad;
         idMesaSeleccionada.textContent = mesaId;
         totalReservaMesa.textContent = total;
-        totalFrontReservaMesa.textContent = total.toLocaleString('es-CO', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        totalFrontReservaMesa.textContent = '$' + total.toLocaleString('es-CO', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 });
     }
 
     verificarSelect();
@@ -177,6 +180,7 @@ function getCSRFToken() {
     const cookieValue = document.cookie.match(/csrftoken=([^ ;]+)/)[1];
     return cookieValue;
 }
+
 
 document.getElementById('confirmarReservaBtn').addEventListener('click', function() {
     const selectMesa = document.querySelector('select[name="mesa"]');
@@ -204,6 +208,11 @@ document.getElementById('confirmarReservaBtn').addEventListener('click', functio
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('alert');
             if (message.message_type === 'success') {
+
+                // Cerrar el modal simulando el clic en el botón de cerrar
+                const closeModalButton = document.querySelector('#confirmCompraMesa .btn-close');
+                closeModalButton.click();
+
                 messageDiv.classList.add('alert-success');
                 alert(message.message);
             } else if (message.message_type === 'error') {
@@ -222,6 +231,7 @@ document.getElementById('confirmarReservaBtn').addEventListener('click', functio
             const closeButton = messageDiv.querySelector('.btn-close');
             closeButton.addEventListener('click', () => {
                 messageDiv.remove();
+                location.reload();
             });
         }); 
     })
@@ -230,5 +240,4 @@ document.getElementById('confirmarReservaBtn').addEventListener('click', functio
         alert('Error al procesar la solicitud' + error);
     });
 });
-
 

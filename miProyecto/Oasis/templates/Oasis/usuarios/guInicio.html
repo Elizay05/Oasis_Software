@@ -3,19 +3,6 @@
 
 {% block titulo %}Usuarios{% endblock %}
 
-<!--{% block Opciones %}
-  <li class="nav-item lateralOpciones2">
-    <a class="nav-link text-white" href="{% url 'guInicio' %}">
-      Inicio                    
-    </a>
-  </li>
-  <li class="nav-item lateralOpciones2">
-    <a class="nav-link text-white" href="{% url 'guUsuariosBloqueados' %}">
-      Usuarios Bloqueados                    
-    </a>
-  </li>
-{% endblock %} -->
-
 {% block contenedor %}
   <div class="radio-inputs many">
     <label class="radio">
@@ -46,16 +33,12 @@
         <p class="divider">|</p>
         <p>Cliente (<span>{{ clientes }}</span>)</p>
       </div>
-      <div class="search">
-          <input placeholder="Buscar usuarios..." type="text">
-          <button type="submit">Buscar</button>
-      </div>
   </div>
   <div class="Agregar">
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#crearUsuario">Crear Usuario</button>
   </div>
   <div id="contenedorTabla">
-    <table class="table"> <!--id="table" Para agregar el DataTables-->
+    <table class="table" id="table"> <!--id="table" Para agregar el DataTables-->
       <thead class="thead-light">
         <tr>
           <th>Nombre</th>
@@ -66,11 +49,12 @@
       </thead>
       <tbody>
         {% for c in data %}
-          <tr>
+          <tr class="flex-wrap">
             <td data-label="Nombre">{{ c.nombre }}</td>
             <td data-label="Email">{{ c.email }}</td>
             <td data-label="Rol">{{ c.get_rol_display }}</td>
             <td data-label="Acciones">
+              <button type="button" class="btn btn-info" data-toggle="modal" data-target="#verUsuario{{ c.id }}"><i class="bi bi-eye-fill"></i></button>
               <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editarUsuario{{ c.id }}"><i class="bi bi-pencil"></i></button>
               <a type="button" class="btn btn-danger" href="javascript:eliminar('{% url 'guUsuariosEliminados' c.id %}')"><i class="bi bi-x-lg"></i></a>
             </td>
@@ -80,88 +64,48 @@
     </table>
   </div>
 
-  <!--
-  <div id="contenedorTabla" class="contenedorTabla">            
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Nombre de usuario</th>
-            <th>Email</th>
-            <th>Rol</th>
-            <th>Fecha de Nacimiento</th>
-            <th>Cédula</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for c in data %}
-          <tr>
-            <td>{{ c.nombre }}</td>
-            <td>{{ c.email }}</td>
-            <td>{{ c.get_rol_display }}</td>
-            <td>{{ c.fecha_nacimiento}}</td>
-            <td>{{ c.cedula}}</td>
-            <td>{{ c.get_estado_display }}</td>
-            <td>
-              <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editarUsuario{{ c.id }}"><i class="bi bi-pencil"></i></button>
-              <a type="button" class="btn btn-danger" href="javascript:eliminar('{% url 'guUsuariosEliminados' c.id %}')"><i class="bi bi-x-lg"></i></a>
-            </td>
-          </tr>
-        </tbody>
-        {% endfor %}
-      </table>
-    </div>
-    -->
-
-    
-    <div class="modal" id="myModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Detalles de Usuario</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-              </div>
-              <div class="modal-body">
-                <div>
-                  <form>
-                    <div class="mb-3">
-                      <label for="exampleInputEmail1" class="form-label">Nombre del usuario</label>
-                      <input type="text" class="form-control" readonly>
-                    </div>
-                    <div class="mb-3">
-                      <label>Estado</label>
-                      <div class="dropdown dropend">
-                          <button id="botonDropdown" type="button" class="btn bg-transparent dropdown-toggle" data-bs-toggle="dropdown">
-                            Activo
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item disabled" href="#">Bloqueado</a></li>
-                          </ul>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                      <label>Pedidos</label>
-                    </div>
-                    <div class="mb-3">
-                      <button class="btn btn-primary" readonly>Pedido#3</button>
-                    </div>
-                    <div class="mb-3">
-                      <label>Reservas</label>
-                    </div>
-                    <div class="mb-3">    
-                      <button class="btn btn-primary">Reserva#5</button>
-                    </div>
-                  </form>
+    {% for c in data %}
+      <div class="modal fade" id="verUsuario{{ c.id }}" tabindex="-1" role="dialog" aria-labelledby="verUsuarioLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="tituloFormulario">Ver usuario</p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-              </div>
-    
+                <div class="modal-body">
+                    <div class="contenedor_ver_usuario">
+                      <img src="{{ c.foto.url }}" alt="{{ c.nombre }}" class="imagen_usuario">
+                      <div class="ver_usuario_info">
+                        <p class="ver_usuario_nombre">{{ c.nombre }}</p>
+                        <p class="ver_usuario_rol">{{ c.get_rol_display }}</p>
+                        <div class="ver_usuario_datos">
+                          <p>Email: {{ c.email }}</p>
+                          <p>C.C: {{ c.cedula }}</p>
+                          <p>Fecha nacimiento: {{ c.fecha_nacimiento }}</p>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                  {% if c.cantidad_pedidos > 0 %}
+                    <a href="{% url 'gu_historial_pedidos_usuario' c.id %}" type="button" class="btn btn-primary">Historial de pedidos</a>
+                  {% endif %}
+
+                  {% if c.cantidad_reservas > 0 %}
+                    <a href="{% url 'gu_reservas_usuario' c.id %}" type="button" class="btn btn-primary">Reservas</a>
+                  {% endif %}
+                  <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#bloquearUsuario{{ c.id }}">Bloquear</button>
+                </div>
+            </div>
         </div>
       </div>
-    </div>
+    {% endfor %}
+
+
+
+
 
     <div class="modal fade" id="crearUsuario" tabindex="-1" role="dialog" aria-labelledby="crearUsuarioLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
@@ -202,14 +146,6 @@
                               </select>
                               <span>Rol</span>
                           </label>
-                          <label class="select-label">
-                            <select name="Estado" class="input select">
-                                {% for estado_value, estado_nombre in estado %}
-                                    <option value="{{ estado_value }}">{{ estado_nombre }}</option>
-                                {% endfor %}
-                            </select>
-                            <span>Estado</span>
-                        </label>
                       </div> 
                       <label>
                         <input required="true" type="date" class="input" name="fechaNacimiento">
@@ -263,14 +199,6 @@
                               </select>
                               <span>Rol</span>
                           </label>
-                          <label class="select-label">
-                            <select name="Estado" class="input select">
-                                {% for estado_value, estado_nombre in estado %}
-                                  <option value="{{ estado_value }}" {% if c.estado == estado_value %}selected{% endif %}>{{ estado_nombre }}</option>
-                                {% endfor %}
-                            </select>
-                            <span>Estado</span>
-                        </label>
                       </div> 
                       <label>
                         <input required="true" type="date" class="input" name="fechaNacimiento" value="{{ c.fecha_nacimiento|date:'Y-m-d' }}">
@@ -283,6 +211,35 @@
                     <button class="btn btn-success mb-2 mt-2" type="submit">Editar Usuario</button>
                   </form>
               </div>
+          </div>
+      </div>
+    </div>
+  {% endfor %}
+
+
+
+  {% for c in data %}
+  <div class="modal fade" id="bloquearUsuario{{ c.id }}" tabindex="-1" role="dialog" aria-labelledby="bloquearUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="tituloFormulario">Bloquear usuario</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="{% url 'guBloquearUsuario' c.id %}">
+              {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                      <label for="motivo" class="form-label">Motivo</label>
+                      <textarea class="form-control" id="motivo" name="motivo" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger">Bloquear</button>
+                </div>
+            </form>
           </div>
       </div>
     </div>

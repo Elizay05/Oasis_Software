@@ -19,16 +19,12 @@
       <div class="conteos">
       <p>Todos (<span>{{ data|length }}</span>)</p>
       </div>
-      <div class="search">
-          <input  type="text" id="myInput" placeholder="Buscar productos...">
-          <button id="searchButton" type="submit">Buscar</button>
-      </div>
   </div>
   <div class="Agregar">
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#agregarProducto">Agregar Producto</button>
   </div>
   <div id="contenedorTabla">
-    <table class="table">
+    <table class="table" id="table">
       <thead class="thead-light">
         <tr>
           <th>ID</th>
@@ -46,6 +42,7 @@
             <td data-label="Categoria">{{ p.categoria }}</td>
             <td data-label="Stock">{{ p.inventario }}</td>
             <td data-label="Acciones">
+              <a type="button" class="btn btn-info" href="{% url 'invDetalleProducto' p.id %}"><i class="bi bi-eye-fill"></i></a>
               <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editarProducto{{ p.id }}"><i class="bi bi-pencil"></i></button>
               <a type="button" class="btn btn-danger" href="javascript:eliminar('{% url 'eliminarProducto' p.id %}')"><i class="bi bi-x-lg"></i></a>
             </td>

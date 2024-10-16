@@ -4,6 +4,7 @@ function eliminar(url){
     }
 }
 
+
 function remove_producto(url){
     location.href = url;
 }
@@ -118,3 +119,5 @@ function actualizar_totales_carrito(url,id){
         location.href="/Oasis/escanear_mesa/";
     });
 }
+
+

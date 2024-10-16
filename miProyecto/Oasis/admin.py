@@ -6,20 +6,25 @@ from .models import *
 
 @admin.register(Usuario)
 class UsuarioAdmin(admin.ModelAdmin):
-    list_display = ['id','nombre','cedula','fecha_nacimiento','email','password','rol','estado','foto','last_login']
+    list_display = ['id','nombre','cedula','fecha_nacimiento','email','password','rol','estado','foto','token_recuperar','last_login']
     search_fields = ['id','nombre','cedula','email','telefono','rol','estado']
     list_filter = ['rol']
-    list_editable = ['estado']
+    list_editable = ['rol','estado']
 
     def ver_foto(self, obj):
         return mark_safe(f"<a href='{obj.foto.url}'><img src='{obj.foto.url}' width='10%'></a>")
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+    
+@admin.register(Bloqueo)
+class BloqueoAdmin(admin.ModelAdmin):
+    list_display = ['id','usuario', 'motivo', 'fecha_bloqueo', 'realizado_por']
+
+               
 @admin.register(Evento)
 class EventoAdmin(admin.ModelAdmin):
-    list_display = ['id','nombre', 'nombre_plural', 'fecha', 'hora_incio', 'descripcion', 'aforo', 'entradas_disponibles', 'precio_entrada', 'precio_vip' , 'reservas','foto']
+    list_display = ['id','nombre', 'nombre_plural', 'fecha', 'hora_incio', 'descripcion', 'aforo', 'entradas_disponibles', 'precio_entrada', 'precio_vip' , 'reservas', 'entradas','foto', 'estado', 'ganancia_entradas', 'ganancia_reservas', 'ganancia_total']
     search_fields = ['id','nombre','fecha','hora_incio']
     list_filter = ['fecha']
-    list_editable = ['nombre','fecha','hora_incio', 'reservas']
+    list_editable = ['nombre','fecha','hora_incio', 'reservas', 'entradas', 'entradas_disponibles', 'ganancia_entradas', 'ganancia_reservas']
 
     def ver_foto(self, obj):
         return mark_safe(f"<a href='{obj.foto.url}'><img src='{obj.foto.url}' width='10%'></a>")
@@ -33,16 +38,21 @@ class CompraEntradaAdmin(admin.ModelAdmin):
     search_fields =['id','usuario','evento','fecha_compra']
     list_editable = ['entrada_general', 'entrada_vip', 'total']
 
+@admin.register(EntradasQR)
+class entradasQRAdmin(admin.ModelAdmin):
+    list_display = ['id', 'compra', 'codigo_qr', 'qr_imagen', 'estado_qr', 'tipo_entrada']
+
+
 @admin.register(Mesa)
 class MesaAdmin(admin.ModelAdmin):
-    list_display = ['id','nombre', 'capacidad', 'precio','estado','estado_reserva','codigo_qr', 'usuario']
+    list_display = ['id','nombre', 'capacidad', 'precio','estado','estado_reserva','codigo_qr', 'qr_imagen','usuario']
     search_fields = ['id','estado', 'capacidad','estado_reserva']
     list_filter = ['estado', 'capacidad','estado_reserva']
-    list_editable = ['estado', 'capacidad', 'estado_reserva']
+    list_editable = ['estado', 'capacidad', 'estado_reserva', 'precio']
 
 @admin.register(Reserva)
 class ReservaAdmin(admin.ModelAdmin):
-    list_display = ['id', 'usuario','evento','mesa','fecha_compra','total','codigo_qr']
+    list_display = ['id', 'usuario','evento','mesa','fecha_compra','total','codigo_qr', 'qr_imagen', 'estado_qr']
     search_fields =['id','usuario','evento','mesa','fecha_compra']
     list_filter = ['evento','fecha_compra']
 

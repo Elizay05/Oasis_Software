@@ -1,0 +1,55 @@
+{% extends 'Oasis/barNavInicio.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block titulo %}Productos{% endblock %}
+
+{% block contenedor %}
+    <!-- Header Start -->
+    <div class="jumbotron jumbotron-fluid bg-jumbotron-galeria" style="margin-bottom: 90px;">
+        <div class="container text-center py-5">
+            <h3 class="text-white display-3 mb-4">Galería</h3>
+            <div class="d-inline-flex align-items-center text-white">
+                <p class="m-0"><a class="text-white" href="{% url 'index' %}">Inicio</a></p>
+                <i class="far fa-circle px-3"></i>
+                <p class="m-0">Galería</p>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+
+
+    <!-- Galeria Start -->
+    <div class="container-fluid py-5">
+        <div class="container pt-5">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-6">
+            <h6 class="d-inline-block bg-light text-primary text-uppercase py-1 px-2">Galería</h6>
+            <h1 class="mb-5">Carpetas con momentos inolvidables</h1>
+            </div>
+        </div>
+        <div class="row">
+            {% for g in galeria %}
+            <div class="col-lg-4 col-md-6">
+                <div class="team position-relative overflow-hidden mb-5" style="display: flex; flex-direction: column; flex: 1;">
+                <img class="img-fluid" src="{{ g.foto.url }}" alt="" style="width: 100%; height: 200px; object-fit: cover;">
+                <div class="position-relative text-center" style="flex: 1;">
+                    <div class="team-text bg-light text-dark">
+                    <h5 class="font-weight-bold" style="font-size: 16px;">{{ g.nombre }}</h5>
+                    <p class="m-0" style="font-size: 12px;">{{ g.fecha }}</p>
+                    </div>
+                    <div class="team-social bg-primary text-center">
+                    <a class="btn btn-outline-light" href="{% url 'front_fotos' g.id %}">Ver Carpeta</a>
+                    </div>  
+                </div>
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- Galeria End -->
+
+{% endblock %}

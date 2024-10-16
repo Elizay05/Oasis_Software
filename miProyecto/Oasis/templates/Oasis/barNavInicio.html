@@ -12,7 +12,38 @@
   <link rel="stylesheet" href="{% static 'Oasis/css/front_eventos/front_eventos_info.css' %}">
   <link rel="stylesheet" href="{% static 'Oasis/css/barrasGestiones.css' %}">
   <link rel="stylesheet" href="{% static 'Oasis/css/pedidoEmpleado.css' %}">
+  
+  <!-- Favicon -->
+  <link href="img/favicon.ico" rel="icon">
+
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+  
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Libraries Stylesheet -->
+  <link rel="stylesheet" href="{% static 'Oasis/lib/animate/animate.min.css' %}">
+  <link rel="stylesheet" href="{% static 'Oasis/lib/owlcarousel/assets/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'Oasis/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css' %}"/>
+
+  <!-- Lightbox CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet" />
+
+  <!-- Customized Bootstrap Stylesheet -->
+  <link rel="stylesheet" href="{% static 'Oasis/css/front.css' %}">
+
+  <!-- Incluir CSS de DateTime Picker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+
+  <!-- Iconos Bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+
+  <!-- Bootstrap CSS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"></script>
@@ -20,90 +51,51 @@
 
 <body>
   <header>
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-      <div class="container-fluid">
-        <a id="enlace_logo" href="{% url 'index' %}"><img src="{% static 'Oasis/img/logoOasisBlanco.png' %}" alt="logo_oasis"></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <div class="navbar-items-responsive">
-            <ul class="navbar-nav d-flex justify-content-around align-items-center mx-auto mb-2 mb-lg-0" id="Opciones">
-              <li class="nav-item">
-                <a class="nav-item opcionesNav" href="{% url 'index' %}" role="button">
-                  INICIO
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-item opcionesNav" href="{% url 'front_productos' %}" role="button">
-                  MENÚ
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="opcionesNav" href="{% url 'front_eventos' %}" role="button">
-                  EVENTOS
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="opcionesNav" href="{% url 'peInicio' %}" role="button">
-                  GALERÍA
-                </a>
-              </li>
-            </ul>
-            <div class="d-flex" id="botones">
-              {% if data %}
-                {% if data.rol == 4 %}
-                  <a href="{% url 'escanear_mesa' %}">
-                    <button class="btn2" type="button">Pedir Ahora</button>
+    <!-- Navbar Start -->
+    <div class="container-fluid p-0">
+      <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0 px-lg-5">
+          <a href="{% url 'index' %}" class="navbar-brand ml-lg-3">
+            <img src="{% static 'Oasis/img/logoOasisNegro.png' %}" alt="logo_oasis" width="170" height="40">
+          </a>
+          <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-between px-lg-3" id="navbarCollapse">
+              <div class="navbar-nav m-auto py-0">
+                <a href="{% url 'index' %}" class="nav-item nav-link {% if request.path == '/' or request.path == '/inicio/' %}active{% endif %}">Inicio</a>
+                <a href="{% url 'front_productos' %}" class="nav-item nav-link {% if url == 'front_productos' or url == 'front_producto_info' %}active{% endif %}">Menú</a>
+                <a href="{% url 'front_eventos' %}" class="nav-item nav-link {% if url == 'front_eventos' or url == 'front_eventos_info' %}active{% endif %}">Eventos</a>
+                <a href="{% url 'front_galeria' %}" class="nav-item nav-link {% if url == 'front_galeria' or url == 'front_fotos' %}active{% endif %}">Galería</a>
+              </div>
+              
+              {% if user %}
+                {% if user.rol == 4 %}
+                  <a class="nav-item nav-link">
+                    <a href="{% url 'escanear_mesa' %}" class="btn btn-primary">Pedir Ahora</a>
                   </a>
-                  <div class="dropdown dropstart">
-                    <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
-                      <img src="{{ data.foto.url }}" alt="LogoUsuario" width="40px" height="40px" class="rounded-circle">
-                    </button>
-                    <ul class="dropdown-menu cerrar">
-                      <li><a class="dropdown-item" href="{% url 'ver_perfil' %}">Perfil</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="{% url 'logout' %}">Salir</a></li>
-                    </ul>
-                  </div>
-                {% else %}
-                  <a type="button" href="#"><i class="bi bi-cart2 colorLogoCarrito"></i></a>
-                  <div class="dropdown dropstart">
-                    <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
-                      <img src="{{ data.foto.url }}" alt="LogoUsuario" width="40px" height="40px" class="rounded-circle">
-                    </button>
-                    <ul class="dropdown-menu cerrar">
-                      {% if data.rol == 1 %}
-                        <li><a class="dropdown-item" href="{% url 'ver_perfil' %}">Administrador</a></li>
-                      {% elif data.rol == 2 %}
-                        <li><a class="dropdown-item" href="{% url 'ver_perfil' %}">Bartender</a></li>
-                      {% elif data.rol == 3 %}
-                        <li><a class="dropdown-item" href="{% url 'ver_perfil' %}">Mesero</a></li>
-                      {% endif %}
-                      <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="{% url 'logout' %}">Salir</a></li>
-                    </ul>
-                  </div>
                 {% endif %}
+                  <a href="{% url 'ver_perfil' %}" class="nav-item nav-link">
+                    <img src="{{ user.foto.url }}" alt="LogoUsuario" width="40px" height="40px" class="rounded-circle">
+                  </a>
               {% else %}
-                <button class="btn1" type="button" data-bs-toggle="offcanvas" data-bs-target="#pantallaLogin">Iniciar Sesión</button>
-                <a href="{% url 'escanear_mesa' %}">
-                  <button class="btn2" type="button">Pedir Ahora</button>
-                </a>
+                  <a class="nav-item nav-link">
+                    <a class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#pantallaLogin">Iniciar Sesión</a>
+                  </a>
               {% endif %}
-            </div>
           </div>
-        </div>
-    </nav>
-    
-    <div class="offcanvas offcanvas-end bg-dark" id="pantallaLogin">
+      </nav>
+  </div>
+  <!-- Navbar End -->
+
+
+    <div class="offcanvas offcanvas-end" id="pantallaLogin">
       <div class="offcanvas-header cabecera">
         <p class="offcanvas-title titulo">Iniciar Sesión</p>
-        <button id="botonCerrar" type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        <button id="botonCerrar" type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
       </div>
       <form action="{% url 'login' %}" method="post">
         {% csrf_token %}
-        <div class="offcanvas-body text-white cuerpo">
+        <div class="offcanvas-body cuerpo">
           <p>Ingresa con tu email y contraseña.</p>
           <div class="input-container inputEdit1">
             <input type="text" required="" name="correo">
@@ -115,7 +107,7 @@
             <label for="input" class="label">Escribe tu contraseña</label>
             <div class="underline"></div>
           </div>
-          <a class="olvidarContraseña">Olvidé mi contraseña</a>
+          <a href="{% url 'form_recuperar_contrasena' %}" class="olvidarContraseña">Olvidé mi contraseña</a>
           <button type="submit" class="btn-normal">Entrar</button>
           <p class="p1">¿No tiene una cuenta?</p>
         </div>
@@ -128,7 +120,7 @@
   {% if messages %}
   {% for message in messages %}
   <div
-    class="alert alert-{% if message.tags and message.tags != 'error' %}{{ message.tags }}{% else %}danger{% endif %} alert-dismissible fade show"
+    class="alert alert-{% if message.tags and message.tags != 'error' %}{{ message.tags }}{% else %}danger{% endif %} alert-dismissible fade show mt-3 mb-0"
     role="alert">
     {{ message }}
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -139,11 +131,95 @@
   {% endblock %}
 
 
+  <!-- Footer Start -->
+  <div class="footer container-fluid position-relative bg-dark py-5" style="margin-top: 90px;">
+    <div class="container pt-5">
+    <div class="row">
+        <div class="col-lg-6 pr-lg-5 mb-5">
+        <a href="index.html" class="navbar-brand pb-5">
+            <img src="{% static 'Oasis/img/logoOasisBlanco.png' %}" alt="logo_oasis" style="width: 230px;">
+        </a>
+        <p><i class="fa fa-map-marker-alt mr-2"></i>Cl 10 #43E-72, El Poblado, Medellín, Antioquia</p>
+        <p><i class="fa fa-phone-alt mr-2"></i>+57 3052777053</p>
+        <p><i class="fa fa-phone-alt mr-2"></i>+57 321 123 4567</p>
+        <p><i class="fa fa-envelope mr-2"></i>info@oasisdiscoteca.com</p>
+        <div class="d-flex justify-content-start mt-4">
+            <a class="btn btn-lg btn-primary btn-lg-square mr-2" href=""><i class="fab fa-twitter"></i></a>
+            <a class="btn btn-lg btn-primary btn-lg-square mr-2" href=""><i class="fab fa-facebook-f"></i></a>
+            <a class="btn btn-lg btn-primary btn-lg-square mr-2" href=""><i class="fab fa-linkedin-in"></i></a>
+            <a class="btn btn-lg btn-primary btn-lg-square" href=""><i class="fab fa-instagram"></i></a>
+        </div>
+        </div>
+        <div class="col-lg-6 pl-lg-5">
+        <div class="row">
+            <h5 class="text-white text-uppercase mb-4">¡Encuentranos Facilmente!</h5>
+            <div style="min-height: 400px;">
+                <div class="position-relative h-100">
+                    <iframe class="position-absolute w-100 h-100" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126924.53494306126!2d-75.5739298!3d6.2119573!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e4429af671e2f4f%3A0x90807624a96df60e!2sTutaina%20Poblado!5e0!3m2!1ses!2sco!4v1728692863055!5m2!1ses!2sco" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+  </div>
+  <div class="container-fluid bg-dark text-light border-top py-4"
+      style="border-color: rgba(256, 256, 256, .15) !important;">
+      <div class="container">
+      <div class="row">
+          <div class="col-md-6 text-center text-md-left mb-3 mb-md-0">
+          <p class="m-0 text-white">&copy; <a href="#">OasisNightClub</a>. All Rights Reserved.</p>
+          </div>
+      </div>
+      </div>
+  </div>
+  <!-- Footer End -->
+
+
+
+  <!-- Back to Top -->
+  <a href="#" class="btn btn-lg btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+  
+
+  <!-- JavaScript Libraries -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+  <script src="lib/easing/easing.min.js"></script>
+  <script src="lib/waypoints/waypoints.min.js"></script>
+  <script src="lib/counterup/counterup.min.js"></script>
+  <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="lib/tempusdominus/js/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+  <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+  <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+
+  <!-- Contact Javascript File -->
+  <script src="mail/jqBootstrapValidation.min.js"></script>
+  <script src="mail/contact.js"></script>
+
+  <!-- Lightbox JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js"></script>
+
+  <!-- Template Javascript -->
+  <script src="{% static 'Oasis/js/front.js' %}"></script>
   <script src="{% static 'Oasis/js/jquery-3.7.1.min.js' %}"></script>
   <script src="{% static 'Oasis/js/libreria.js' %}"></script>
   <script src="{% static 'tienda/js/bootstrap.bundle.min.js' %}"></script>
   <script src="{% static 'Oasis/js/front_eventos_info.js' %}"></script>
 
+  <script>
+    let table = new DataTable('#table', {
+      language: {
+        url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+      }
+    });
+  </script>
+
+  {% block js %}{% endblock %}
 </body>
 
 </html>

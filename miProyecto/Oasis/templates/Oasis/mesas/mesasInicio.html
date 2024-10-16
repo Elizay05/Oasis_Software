@@ -18,16 +18,12 @@
       <div class="conteos">
         <p>Todos (<span> {{ data|length }} </span>)</p>
       </div>
-      <div class="search">
-        <input placeholder="Buscar mesas..." type="text">
-        <button type="submit">Buscar</button>
-    </div>
   </div>
   <div class="Agregar">
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#agregarMesa">Agregar Mesa</button>
   </div>
   <div id="contenedorTabla">
-    <table class="table">
+    <table class="table" id="table">
       <thead class="thead-light">
         <tr>
           <th>Mesa</th>
@@ -51,6 +47,8 @@
               <td data-label="Usuario">Sin usuario</td>
             {% endif %}
             <td data-label="Acciones">
+              <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#verQr{{ m.id }}"><i class="bi bi-qr-code"></i></button>
+              <button type="button" class="btn btn-info" data-toggle="modal" data-target="#verMesa{{ m.id }}"><i class="bi bi-eye-fill"></i></button>
               <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editarMesa{{ m.id }}"><i class="bi bi-pencil"></i></button>
               <a type="button" class="btn btn-danger" href="javascript:eliminar('{% url 'eliminarMesa' m.id %}')"><i class="bi bi-x-lg"></i></a>
             </td>
@@ -59,6 +57,28 @@
       </tbody>
     </table>
   </div>
+
+
+  {% for m in data %}
+    <div class="modal fade" id="verQr{{ m.id }}" tabindex="-1" role="dialog" aria-labelledby="editarMesaLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <p class="tituloFormulario">Ver código QR</p>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                <p>Este código QR pertence a la mesa, y es el mismo que se encuentra en la mesa fisica.</p>
+                <div class="w-100 d-flex justify-content-center"    >
+                    <img src="{{ m.qr_imagen.url }}" alt="qr" width="50%">
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  {% endfor %}
 
 
   <div class="modal fade" id="agregarMesa" tabindex="-1" role="dialog" aria-labelledby="agregarMesaLabel" aria-hidden="true">
@@ -128,51 +148,43 @@
   {% endfor %}
 
 
-
-
- <!--
-  <div id="contenedorTabla" class="contenedorTabla">            
-      <table id="tabla" class="table table-striped">
-        <thead>
-          <tr>
-            <th>Mesa</th>
-            <th>Capacidad</th>
-            <th>Precio</th>
-            <th>Estado Pedido</th>
-            <th>Estado Reserva</th>
-            <th>Código Qr</th>
-            <th>Usuario</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for c in data %}
-          <tr>
-            <td>{{ c.nombre }}</td>
-            <td>{{ c.capacidad }}</td>
-            <td>{{ c.precio|intcomma }}</td>
-            <td>{{ c.estado }}</td>
-            <td>
-              {% if c.estado_reserva == 'Reservada' %}
-                <a href="">{{ c.estado_reserva }}</a>
-              {% else %}
-                {{ c.estado_reserva }}
-              {% endif %}
-            </td>
-            <td>{{ c.codigo_qr }}</td>
-            {% if c.usuario %}
-              <td>{{ c.usuario }}</td>
-            {% else %}
-              <td>Sin usuario</td>
-            {% endif %}
-            <td>
-              <a type="button" class="btn btn-warning" href=""><i class="bi bi-pencil"></i></a>
-              <a type="button" class="btn btn-danger" href="javascript:eliminar('{% url 'eliminarMesa' c.id %}')"><i class="bi bi-x-lg"></i></a>
-            </td>
-          </tr>
-        </tbody>
-        {% endfor %}
-      </table>
+  {% for m in data %}
+    <div class="modal fade" id="verMesa{{ m.id }}" tabindex="-1" role="dialog" aria-labelledby="verMesaLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <p class="tituloFormulario">Ver mesa</p>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <div class="contenedor_ver_mesa">
+                    <div class="ver_mesa_nombre">
+                      <p>{{ m.nombre }}</p>
+                    </div>
+                    <div class="ver_mesa_info">
+                      <p>Capacidad: {{ m.capacidad }}</p>
+                      <p>Precio: $ {{ m.precio|intcomma }}</p>
+                      {% if m.estado == 'Disponible' %}
+                        <p>Estado pedido: {{ m.estado }}</p>
+                      {% endif %}
+                      {% if m.estado_reserva == 'Reservada' %}
+                        <p>Estado reserva: {{ m.estado_reserva }}</p>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="ver_mesa_botones">
+                    {% if m.estado == 'Activa' %}
+                      <a href="{% url 'ver_pedidos_mesa' m.id %}" class="btn btn-primary">Pedidos</a>
+                    {% endif %}
+                    {% if m.estado_reserva == 'Reservada' %}
+                      <a href="{% url 'reservasMesa' m.id %}" class="btn btn-primary">Reservas</a>
+                    {% endif %}
+                  </div>
+              </div>
+          </div>
+      </div>
     </div>
-    --> 
+  {% endfor %}
 {% endblock %}  

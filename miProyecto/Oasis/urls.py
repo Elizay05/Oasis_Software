@@ -27,8 +27,28 @@ urlpatterns = [
     path('api/1.0/', include(router.urls)),
     path('api/1.0/token-auth/', views.CustomAuthToken.as_view()),
 	path('api/1.0/api-auth/', include('rest_framework.urls')),
-	path('api/1.0/token_qr/', views.token_qr.as_view()),
-
+	path('api/1.0/token_qr/<str:mesa>/', views.token_qr_movil.as_view()),
+    path('api/1.0/comprar_entradas/', views.comprar_entradas_movil.as_view()),
+    path('api/1.0/entradas_usuario/<int:id>/', views.entradas_usuario_movil.as_view()),
+    path('api/1.0/entradas_detalles_usuario/<int:user_id>/<int:entrada_id>/', views.entradas_detalles_usuario_movil.as_view()),
+    path('api/1.0/mesas_reservadas/<int:id_evento>/', views.mesas_reservadas_movil.as_view()),
+    path('api/1.0/reservar_mesa/', views.reservar_mesa_movil.as_view()),
+    path('api/1.0/reservas_usuario/<int:id>/', views.reservas_usuario_movil.as_view()),
+    path('api/1.0/reservas_detalles_usuario/<int:user_id>/<int:reserva_id>/', views.reservas_detalles_usuario_movil.as_view()),
+    path('api/1.0/realizar_pedido/', views.realizar_pedido_movil.as_view()),
+    path('api/1.0/pedidos_usuario/<int:user_id>/', views.ver_pedido_usuario_movil.as_view()),
+    path('api/1.0/eliminar_pedido_usuario/<int:id_pedido>/', views.eliminar_pedido_usuario_movil.as_view()),
+    path('api/1.0/eliminar_producto_pedido_usuario/<int:id_detalle>/', views.eliminar_producto_pedido_usuario_movil.as_view()),
+    path('api/1.0/pagar_pedido_usuario/<int:id_usuario>/<str:codigo_mesa>/', views.pagar_pedido_usuario_movil.as_view()),
+    path('api/1.0/liberar_mesa_usuario/<str:codigo_mesa>/', views.liberar_mesa_usuario_movil.as_view()),
+    path('api/1.0/verificar_pedido_usuario/<int:id_usuario>/', views.verificar_pedido_usuario_movil.as_view()),
+    path('api/1.0/pedidos_mesa/<str:codigo_mesa>/', views.ver_pedido_mesa_movil.as_view()),
+    path('api/1.0/pedidos_mesa_cargo/<int:id_usuario>/', views.ver_mesa_cargo_movil.as_view()),
+    path('api/1.0/reserva_escaneado/<str:codigo_qr>/', views.qr_reserva_escaneado_movil.as_view()),
+    path('api/1.0/entrada_escaneado/<str:codigo_qr>/', views.qr_entrada_escaneado_movil.as_view()),
+    path('api/1.0/categoria_productos/<int:id_categoria>/', views.categoria_productos_movil.as_view()),
+    path('api/1.0/galeria_fotos/<int:id_carpeta>/', views.galeria_fotos_movil.as_view()),
+    path('api/1.0/registrar_usuario/', views.registrar_usuario_movil.as_view()),
 
 
 
@@ -43,6 +63,9 @@ urlpatterns = [
 	path('logout/', views.logout, name="logout"),
 
 
+    path('form_recuperar_contrasena/', views.recuperar_contrasena_template, name='form_recuperar_contrasena'),
+    path('recuperar_contrasena/', views.recuperar_contrasena, name='recuperar_contrasena'),
+    path('verificar_recuperar/', views.verificar_recuperar, name='verificar_recuperar'),
     path('registro/', views.registro, name='registro'),
 
     #TÉRMINOS Y CONDICIONES
@@ -57,6 +80,8 @@ urlpatterns = [
     path('reservas/', views.reservas_usuario, name='reservas_usuario'),
     path('reservas_info/<int:id>/', views.reservas_usuario_info, name='reserva_info'),
 
+    path('ver_mesas_a_cargo/', views.ver_mesas_a_cargo, name='ver_mesas_a_cargo'),
+
 
 
     #CAMBIAR CONTRASEÑA
@@ -65,11 +90,17 @@ urlpatterns = [
 
     #USUARIOS
     path('Gestion_Usuarios/', views.guInicio, name='guInicio'),
-    path('Usuarios_Bloqueados/', views.guUsuariosBloqueados, name='guUsuariosBloqueados'),
-
     path('Usuarios_Eliminados/<int:id>', views.guUsuariosEliminados, name='guUsuariosEliminados'),
     path('Usuarios_Actualizar/<int:id>', views.guUsuariosActualizar, name='guUsuariosActualizar'),
     path('guUsuariosCrear/', views.guUsuariosCrear, name='guUsuariosCrear'),
+    
+    path('gu_reservas_usuario/<int:id>', views.gu_reservas_usuario, name='gu_reservas_usuario'),
+	path("gu_historial_pedidos/<int:id>", views.gu_historial_pedidos_usuario, name="gu_historial_pedidos_usuario"),
+
+
+    path('Usuarios_Bloqueados/', views.guUsuariosBloqueados, name='guUsuariosBloqueados'),
+    path('Bloquear_Usuario/<int:id>', views.guBloquearUsuario, name='guBloquearUsuario'),
+    path('Desbloquear_Usuario/<int:id>', views.guDesbloquearUsuario, name='guDesbloquearUsuario'),
 
 
     #CRUD INVENTARIO
@@ -86,11 +117,14 @@ urlpatterns = [
     path('Crear_Producto/', views.crearProducto, name='crearProducto'),
     path('Eliminar_Producto/<int:id>', views.eliminarProducto, name='eliminarProducto'),
     path('Actualizar_Producto/<int:id>', views.actualizarProducto, name='actualizarProducto'),
+    path('Inv_Detalle_Producto/<int:id>', views.invDetalleProducto, name='invDetalleProducto'),
+
 
 
     #PEDIDOS
     path('Gestion_Pedidos/', views.peInicio, name='peInicio'),
     path('Historial_Pedidos/', views.ver_historial_pedidos, name='peHistorial'),
+    path('descargar_pdf_pedido/<int:id>/', views.descargar_pdf_pedido, name='descargar_pdf_pedido'),
     path('Mesas/', views.peGestionMesas, name='peGestionMesas'),
     path('Agregar_Pedido/<int:id>', views.pedidoEmpleado, name='pedidoEmpleado'),
 	path("crear_pedido/<int:id>", views.crear_pedido_admin, name="crear_pedido_admin"),
@@ -108,6 +142,8 @@ urlpatterns = [
     path('Actualizar_Mesa/<int:id>', views.mesaActualizar, name='mesaActualizar'),
     path('Eliminar_Mesa/<int:id>', views.eliminarMesa, name='eliminarMesa'),
 
+    path('reservasMesa/<int:id>', views.reservasMesa, name='reservasMesa'),
+
 
 
 #   CRUD EVENTOS
@@ -116,32 +152,50 @@ urlpatterns = [
     path('Eliminar_Evento/<int:id>', views.eliminarEvento, name='eliminarEvento'),
     path('Actualizar_Evento/<int:id>', views.actualizarEvento, name='actualizarEvento'),
     path('Reservas/<int:id>', views.eveReserva, name='eveReserva'),
+    path('ReservasLLegada/<str:codigo_qr>', views.eveReservaLlegada, name='eveReservaLlegada'),
     path('Evento_Entradas/<int:id>', views.eveEntradas, name='eveEntradas'),
     path('Eliminar_Entrada/<int:id>', views.eliminarEntrada, name='eliminarEntrada'),
+
+    path('Detalle_Evento/<int:id>', views.detalleEvento, name='detalleEvento'),
+
+    path('Gestion_Eventos_Eliminados/', views.eveEliminados, name='EventosEliminados'),
+    path('Eliminar_Evento_Definitivo/<int:id>', views.eliminarEventoDefinitivo, name='eliminarEventoDefinitivo'),
+
+
 
 #   CRUD MENÚ (CATEGORÍAS)
     path('Gestion_Menu/', views.meInicio, name='Menu'),
     path('Crear_Categoria/', views.crearCategoria, name='crearCategoria'),
     path('Eliminar_Categoria/<int:id>', views.eliminarCategoria, name='eliminarCategoria'),
     path('Actualizar_Categoria/<int:id>', views.actualizarCategoria, name='actualizarCategoria'),
-    path('Productos/', views.meProductos, name='meProductos'),
+    path('Productos/<int:id>', views.meProductos, name='meProductos'),
+    path('Me_Crear_Producto/<int:id>', views.meCrearProducto, name='meCrearProducto'),
+    path('Me_Detalle_Producto/<int:id>', views.meDetalleProducto, name='meDetalleProducto'),
 
 
 #   CRUD GALERÍA
     path('Gestion_Galeria/', views.gaInicio, name='gaInicio'),
     path('Agregar_Carpeta/', views.crearCarpeta, name='crearCarpeta'),
-    path('Galeria_Fotos/', views.gaFotos, name='gaFotos'),
     path('Eliminar_Carpeta/<int:id>', views.eliminarCarpeta, name='eliminarCarpeta'),
     path('Actualizar_Carpeta/<int:id>', views.actualizarCarpeta, name='actualizarCarpeta'),
+    path('Galeria_Fotos/<int:id>', views.gaFotos, name='gaFotos'),
+    path('gaAgregarFoto/<int:id>', views.agregarFoto, name='agregarFoto'),
+    path('eliminarFoto/<int:id>', views.eliminarFoto, name='eliminarFoto'),
+    path('CambiarFoto/<int:id>', views.cambiarFoto, name='cambiarFoto'),
 
 
 
 #   FRONT PRODUCTOS
     path('front_productos/', views.front_productos, name='front_productos'),
+    path('front_producto_info/<int:id>', views.front_producto_info, name='front_producto_info'),
 
 #   FRONT EVENTOS
     path('front_eventos/', views.front_eventos, name='front_eventos'),
     path('front_eventos_info/<int:id>/', views.front_eventos_info, name='front_eventos_info'),
+
+#   FRONT GALERIA
+    path('front_galeria/', views.front_galeria, name='front_galeria'),
+    path('front_fotos/<int:id>', views.front_fotos, name='front_fotos'),
 
 
 # CARRITO DE COMPRA USUARIO
@@ -152,7 +206,6 @@ urlpatterns = [
 	path("actualizar_totales_carrito/<int:id_producto>/", views.actualizar_totales_carrito, name="actualizar_totales_carrito"),
 
 #CARRITO DE COMPRA MESERO
-	path("carrito_ver_admin/", views.carrito_ver_admin, name="carrito_ver_admin"),
 	path("actualizar_totales_carrito_admin/<int:id_producto>/", views.actualizar_totales_carrito_admin, name="actualizar_totales_carrito_admin"),
     path("carrito_eliminar_admin/<int:id>/", views.carrito_eliminar_admin, name="carrito_eliminar_admin"),
 	path("vaciar_carrito_admin/", views.vaciar_carrito_admin, name="vaciar_carrito_admin"),
@@ -161,8 +214,16 @@ urlpatterns = [
 
     path('pagar_pedido/<int:id>/<str:rol>/', views.pagar_pedido, name='pagar_pedido'),
     path('entregar_pedido/<int:id>/', views.entregar_pedido, name='entregar_pedido'),
+
     path('cancelar_pedido/', views.cancelar_pedido, name='cancelar_pedido'),
+    path('cancelar_pedido_sin_comentario/<int:id_pedido>/<str:ruta>/', views.cancelar_pedido_sin_comentario, name='cancelar_pedido_sin_comentario_sin_mesa'),
+    path('cancelar_pedido_sin_comentario/<int:id_pedido>/<int:id_mesa>/<str:ruta>/', views.cancelar_pedido_sin_comentario, name='cancelar_pedido_sin_comentario'),
+
+
     path('eliminar_producto/', views.eliminar_item, name='eliminar_producto'),
+    path('eliminar_producto_sin_comentario/<int:id_producto>/<str:ruta>/', views.eliminar_item_sin_comentario, name='eliminar_item_sin_comentario_sin_mesa'),
+    path('eliminar_producto_sin_comentario/<int:id_producto>/<int:id_mesa>/<str:ruta>/', views.eliminar_item_sin_comentario, name='eliminar_item_sin_comentario'),
+
     path('liberar_mesa/<int:id>/', views.liberar_mesa, name='liberar_mesa'),
 
 
@@ -170,7 +231,7 @@ urlpatterns = [
 
 #VENTAS
 	path("crear_venta/", views.crear_venta, name="crear_venta"),
-	path("historial_pedidos/", views.ver_pedidos_usuario, name="ver_ventas"),
+	path("historial_pedidos_usuario/", views.ver_pedidos_usuario, name="ver_ventas"),
 	path("ver_detalles_pedido_usuario/", views.ver_detalles_usuario, name="ver_detalles_pedido_usuario"),
 
 #COMPRAR ENTRADAS
@@ -178,5 +239,10 @@ urlpatterns = [
 
 #RESERVAR MESAS
     path("reservar_mesa/<int:id>/", views.reservar_mesa, name="reservar_mesa"),
-
+    path("eliminar_reserva/<int:id>/", views.eliminar_reserva, name="eliminar_reserva"),
+    
+    
+#MOSTRAR TOTAL DE GANANCIAS
+    path("ganancias_eventos/", views.ganancias_eventos, name="ganancias_eventos"),
+    path('descargar_pdf_ganancias_evento/<int:id>/', views.descargar_pdf_ganancias_evento, name='descargar_pdf_ganancias_evento')
 ]   

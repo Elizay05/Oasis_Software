@@ -22,99 +22,22 @@
     <link rel="stylesheet" href="{% static 'Oasis/css/front_eventos/front_eventos_info.css' %}">
     <link rel="stylesheet" href="{% static 'Oasis/css/usuario/reservas_y_entradas.css' %}">
     <link rel="stylesheet" href="{% static 'Oasis/css/navbarAdmin.css' %}">
+    <link rel="stylesheet" href="{% static 'Oasis/css/menu.css' %}">
+    <link rel="stylesheet" href="{% static 'Oasis/css/productos.css' %}">
+    <link rel="stylesheet" href="{% static 'Oasis/css/usuario.css' %}">
+    <link rel="stylesheet" href="{% static 'Oasis/css/entradas.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+    
 
     <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </head>
 
 <body>
-    <!-- <header>
-        <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-            <div class="container-fluid">
-                <a id="enlace_logo" href="{% url 'index' %}"><img src="{% static 'Oasis/img/logoOasisBlanco.png' %}" alt="logo_oasis"></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse " id="navbarSupportedContent">
-                    <div class="navbar-items-responsive">
-                        <ul class="navbar-nav d-flex justify-content-around align-items-center mx-auto mb-2 mb-lg-0" id="Opciones">
-                            <li class="nav-item">
-                                <a class="opcionesNav2" href="{% url 'guInicio' %}" role="button">
-                                    Seguridad
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="opcionesNav2" href="{% url 'Productos'%}" role="button">
-                                    Inventario 
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="opcionesNav2" href="{% url 'Mesas'%}" role="button">
-                                    Mesas 
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="opcionesNav2" href="{% url 'peInicio' %}" role="button">
-                                    Pedidos
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="opcionesNav2" href="{% url 'Eventos' %}" role="button">
-                                    Eventos
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="opcionesNav2" href="{% url 'Menu' %}" role="button">
-                                    Menú
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="opcionesNav2" href="{% url 'gaInicio' %}" role="button">
-                                    Galería
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="d-flex">
-                            <div class="dropdown dropstart">
-                                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
-                                    {% if user.foto %}
-                                        <img src="{{ user.foto.url }}" alt="FotoUsuario" width="45px" height="45px"  class="rounded-circle">
-                                    {% else %}
-                                        <img src="{% static 'Oasis/img/logoUser.png' %}" alt="LogoUsuario" width="45px" height="45px">
-                                    {% endif %}
-                                </button>
-                                <ul class="dropdown-menu cerrar">
-                                    <li><a class="dropdown-item" href="{% url 'ver_perfil' %}">
-                                        {% if user.rol == 1 %} Administrador 
-                                        {% elif user.rol == 2 %} Bartender 
-                                        {% elif user.rol == 3 %} Mesero 
-                                        {% elif user.rol == 4 %} Perfil 
-                                        {% endif %}
-                                    </a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Salir</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header> -->
     <div class="wrapper collapsar">
   
         <div class="top_navbar">
@@ -141,37 +64,49 @@
           
           <div class="sidebar">
             <ul class="items-barra">
-              <li><a href="{% url 'guInicio' %}" {% if url == 'Gestion_Usuarios' or url == 'Usuarios_Bloqueados' %} class="active" {% endif %}>
-                <span class="icon"><i class="fas fa-users"></i></span>
-                <span class="title">Usuarios</span>
-              </a></li>
-              <li><a href="{% url 'Productos' %}" {% if url == 'Gestion_Productos' %} class="active" {% endif %}>
-                <span class="icon"><i class="fas fa-boxes"></i></span>
-                <span class="title">Inventario</span>
-              </a></li>
-              <li><a href="{% url 'Mesas'%}" {% if url == 'Gestion_Mesas' %} class="active" {% endif %}>
-                <span class="icon"><i class="fas fa-chair"></i></span>
-                <span class="title">Mesas</span>
-              </a></li>
-              <li><a href="{% url 'peInicio' %}" {% if url == 'Gestion_Pedidos' or url == 'Mesas' or url == 'Agregar_Pedido' or url == 'Historial_Pedidos' or url == 'ver_pedidos_mesa' %} class="active" {% endif %} >
+              {% if user.rol == 1 %}
+                <li><a href="{% url 'guInicio' %}" {% if url == 'Gestion_Usuarios' or url == 'Usuarios_Bloqueados' %} class="active" {% endif %}>
+                  <span class="icon"><i class="fas fa-users"></i></span>
+                  <span class="title">Usuarios</span>
+                </a></li>
+              {% endif %}
+              {% if user.rol == 1 %}
+                <li><a href="{% url 'Productos' %}" {% if url == 'Gestion_Productos' or url == 'Inv_Detalle_Producto' %} class="active" {% endif %}>
+                  <span class="icon"><i class="fas fa-boxes"></i></span>
+                  <span class="title">Inventario</span>
+                </a></li>
+              {% endif %}
+              {% if user.rol == 1 %}
+                <li><a href="{% url 'Mesas'%}" {% if url == 'Gestion_Mesas' or url == 'reservasMesa' %} class="active" {% endif %}>
+                  <span class="icon"><i class="fas fa-chair"></i></span>
+                  <span class="title">Mesas</span>
+                </a></li>
+              {% endif %}
+              <li><a href="{% if user.rol == 2 or user.rol == 1 %} {% url 'peInicio' %} {% else %} {% url 'peGestionMesas' %} {% endif %}" {% if url == 'Gestion_Pedidos' or url == 'Mesas' or url == 'Agregar_Pedido' or url == 'Historial_Pedidos' or url == 'ver_pedidos_mesa' %} class="active" {% endif %} >
                 <span class="icon"><i class="fas fa-concierge-bell"></i></span>
                 <span class="title">Pedidos</span>
               </a></li>
-              <li><a href="{% url 'Eventos' %}" {% if url == 'Gestion_Eventos' or url == 'Reservas' or url == 'Evento_Entradas' %}class="active" {% endif %}>
-                <span class="icon"><i class="fas fa-calendar"></i></span>
-                <span class="title">Eventos</span>
-              </a></li>
-              <li><a href="{% url 'Menu' %}" {% if url == 'Gestion_Menu' or url == 'Productos' %} class="active" {% endif %}>
-                <span class="icon"><i class="fas fa-clipboard-list"></i></span>
-                <span class="title">Menú</span>
-              </a></li>
-              <li><a href="{% url 'gaInicio' %}" {% if url == 'Gestion_Galeria' %} class="active" {% endif %}>
-                <span class="icon"><i class="fas fa-images"></i></span>
-                <span class="title">Galería</span>
-              </a></li>
+              {% if user.rol == 1 %}
+                <li><a href="{% url 'Eventos' %}" {% if url == 'Gestion_Eventos' or url == 'Reservas' or url == 'Evento_Entradas' %}class="active" {% endif %}>
+                  <span class="icon"><i class="fas fa-calendar"></i></span>
+                  <span class="title">Eventos</span>
+                </a></li>
+              {% endif %}
+              {% if user.rol == 1 %}
+                <li><a href="{% url 'Menu' %}" {% if url == 'Gestion_Menu' or url == 'Productos' or url == 'Me_Detalle_Producto' %} class="active" {% endif %}>
+                  <span class="icon"><i class="fas fa-clipboard-list"></i></span>
+                  <span class="title">Menú</span>
+                </a></li>
+              {% endif %}
+              {% if user.rol == 1 %}
+                <li><a href="{% url 'gaInicio' %}" {% if url == 'Gestion_Galeria' or url == 'gaFotos' %} class="active" {% endif %}>
+                  <span class="icon"><i class="fas fa-images"></i></span>
+                  <span class="title">Galería</span>
+                </a></li>
+              {% endif %}
             </ul>
             <ul class="items-barra logout">
-              <li><a href="{% url 'ver_perfil' %}" {% if url == 'Perfil' or url == 'ver_detalles_pedido_usuario' or url == 'historial_pedidos' or url == 'reservas' or url == 'reservas_info' or url == 'entradas' or url == 'entradas_info' %} class="active" {% endif %}>
+              <li><a href="{% url 'ver_perfil' %}" {% if url == 'Perfil' or url == 'ver_detalles_pedido_usuario' or url == 'historial_pedidos' or url == 'ver_mesas_a_cargo' or url == 'ganancias_eventos' %} class="active" {% endif %}>
                 <span class="icon"><i class="fas fa-user-circle"></i></span>
                 <span class="title">Mi perfil</span>
               </a></li>
@@ -194,20 +129,28 @@
     </div>
 
     <script src="{% static 'Oasis/js/libreria.js' %}"></script>
+    <script src="{% static 'Oasis/js/jquery-3.7.1.min.js' %}"></script>
     <script src="{% static 'Oasis/js/bootstrap.bundle.min.js' %}"></script>
     <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
     <script src="{% static 'Oasis/js/navbarAdmin.js' %}"></script>
-
+    <!--<script src="https://code.jquery.com/jquery-3.7.0.js"></script>-->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
 
         $(document).ready(function () {
-            if ($.fn.dataTable.isDataTable('#table')) {
-            $('#table').DataTable().clear().destroy();
+            if ($.fn.dataTable.isDataTable('#dataTable')) {
+            $('#dataTable').DataTable().clear().destroy();
             }
 
             var table = $('#table').DataTable({
                 ordering: true,
-                searching: false,
+                searching: true,
                 language: {
                 "decimal": "",
                 "emptyTable": "No hay información",
@@ -269,7 +212,7 @@
                 }
             });
         </script>
-        
+        {% block js %}{% endblock %}
 </body>
 
 </html>

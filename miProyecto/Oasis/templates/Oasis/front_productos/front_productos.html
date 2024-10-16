@@ -5,55 +5,89 @@
 {% block titulo %}Productos{% endblock %}
 
 {% block contenedor %}
-    <div class="d-flex">
-        <img src="{% static 'Oasis/img/cerveza.png' %}" alt="cerveza" class="d-block w-50" style="height: 300px;">
-        <div class="w-50" style="background-color: black;">
-            <h1 style="color: white; font-family: Camingo; margin-top: 5%;">MENÚ OASIS</h1>
-            <div style="height: 2%; background-color: blueviolet; width: 30%;"></div>
-            <br>
-            <br>
-            <h5 style="color: white; font-family: Quicksand; width: 80%;">Tus celebraciones no serían lo mismo sin licor, por eso tenemos para tí los mejores del mercado, elige el que con tu evento combine mejor.</h5>
+    <!-- Header Start -->
+    <div class="jumbotron jumbotron-fluid bg-jumbotron-menu" style="margin-bottom: 90px;">
+        <div class="container text-center py-5">
+            <h3 class="text-white display-3 mb-4">Menú</h3>
+            <div class="d-inline-flex align-items-center text-white">
+                <p class="m-0"><a class="text-white" href="{% url 'index' %}">Inicio</a></p>
+                <i class="far fa-circle px-3"></i>
+                <p class="m-0">Menú</p>
+            </div>
         </div>
     </div>
-    <div class="bg-dark text-light w-100 d-flex" style="height:auto; padding: 2%;">
-        {% if productos %}
-            {% csrf_token %}
-            <div class="d-block" style="width: 18%; padding-top: 16px; padding-left: 3%;">
-                <a href="{% url 'front_productos' %}" class="text-center d-block text-decoration-none" style="color:white; font-family:Nunito; font-size: x-large;padding-top: 4%; padding-bottom: 4%; border-bottom: 1px solid rgb(112, 112, 112);">Ver todos</a>
-                {% for i in categorias %}
-                    <a href="{% url 'front_productos' %}?cat={{ i.id }}" class="text-center d-block text-decoration-none" style="color:white; font-family:Nunito; font-size: x-large;padding-top: 4%; padding-bottom: 4%; border-bottom: 1px solid rgb(112, 112, 112);">{{ i.nombre }}</a>
-                {% endfor %}
+    <!-- Header End -->
+
+
+
+    <!-- Menú Start -->
+    <div class="container pt-5">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-6">
+            <h6 class="d-inline-block bg-light text-primary text-uppercase py-1 px-2">Nuestros productos</h6>
+            {% if nombre_categoria %}
+                <h1 class="mb-5">{{ nombre_categoria }}</h1>
+            {% else %}
+                <h1 class="mb-5">Todos los productos</h1>
+            {% endif %}
             </div>
-            <div class="d-flex w-100" style="padding-left: 8%;">
-                {% for i in productos %}
-                    <div class="card bg-transparent text-light" style="width: 17rem; margin-right: 3%; border: none;">
-                        <a href="">
-                            <img src="{{ i.foto.url }}" class="card-img-top rounded" alt="Producto" style="height: 230px; padding: 16px;"> 
-                        </a>
-                        <div class="card-body">
-                            <h4 class="card-title" style="font-family:Nunito;">$ {{ i.precio|intcomma }}</h4>
-                            <h5 class="card-text" style="font-family: Quicksand;">{{ i.nombre }}</h5>
-                            <form>
-                                <input type="hidden" name="id" id="id_{{ i.id }}" value="{{ i.id }}">
-                                <input type="number" name="cantidad" id="cantidad_{{ i.id }}" class="form-control bg-dark text-light text-center" min="1" value="1" size="3">
-                                <br>
-                                <button type="button" onclick="add_carrito(`{% url 'carrito_add' %}`, {{ i.id }});" class="btn" style="background-color: #fc4664; color: white; width: 100%;"><i class="bi bi-cart2"></i> Agregar</button>
-                            </form>
-                            <br>
-                        </div>
+        </div>
+    </div>
+    <div class="container pt-5">
+        {% if sin_productos %}
+            <div class="container-fluid px-0 pb-5">
+                <div class="row mx-0 justify-content-center text-center">
+                    <div class="col-lg-6">
+                        <p>Por el momento no hay productos</p>
                     </div>
-                {% endfor %}
+                </div>
             </div>
         {% else %}
-            <div class="d-block" style="width: 18%; padding-top: 16px; padding-left: 3%;">
-                <a href="{% url 'front_productos' %}" class="text-center d-block text-decoration-none" style="color:white; font-family:Nunito; font-size: x-large;padding-top: 4%; padding-bottom: 4%; border-bottom: 1px solid rgb(112, 112, 112);">Ver todos</a>
-                {% for i in categorias %}
-                    <a href="{% url 'front_productos' %}?categorias={{ i.id }}" class="text-center d-block text-decoration-none" style="color:white; font-family:Nunito; font-size: x-large;padding-top: 4%; padding-bottom: 4%; border-bottom: 1px solid rgb(112, 112, 112);">{{ i.nombre }}</a>
-                {% endfor %}
-            </div>
-            <div class="d-flex w-100" style="padding-left: 8%;">
-                <p class="text-light" style="font-family: Nunito;">No hay productos en esta categoría...</p>
+            <div class="row">
+                {% if productos %}
+                    <div class="col-lg-3 mb-5">
+                        <a href="{% url 'front_productos' %}" class="d-flex align-items-center bg-light py-2 px-4 mb-2 text-decoration-none">Ver todo</a>
+                        {% for c in categorias %}
+                            <a href="{% url 'front_productos' %}?cat={{ c.id }}" class="d-flex align-items-center bg-light py-2 px-4 mb-2 text-decoration-none">{{ c.nombre }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="row">
+                            {% for p in productos %}
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="team position-relative overflow-hidden mb-5" style="display: flex; flex-direction: column; flex: 1;">
+                                        <img class="img-fluid" src="{{ p.foto.url }}" alt="" style="width: 100%; height: 200px; object-fit: cover;">
+                                        <div class="position-relative text-center" style="flex: 1;">
+                                            <div class="team-text bg-light px-2">
+                                                <h5 class="font-weight-bold" style="font-size: 16px;">{{ p.nombre }}</h5>
+                                                <p class="m-0" style="font-size: 14px;">${{ p.precio|intcomma }}</p>
+                                            </div>
+                                            <div class="team-social bg-primary text-center">
+                                                <a class="btn btn-outline-light" href="{% url 'front_producto_info' p.id %}">Ver más</a>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-lg-3 pb-5">
+                        <a href="{% url 'front_productos' %}" class="d-flex align-items-center bg-light py-2 px-4 mb-2 text-decoration-none">Ver todo</a>
+                        {% for c in categorias %}
+                            <a href="{% url 'front_productos' %}?cat={{ c.id }}" class="d-flex align-items-center bg-light py-2 px-4 mb-2 text-decoration-none">{{ c.nombre }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="col-lg-9 pb-5">
+                        <div class="row">
+                            <p>No se encuentran productos en esta categoría</p>   
+                        </div>
+                    </div>
+                {% endif %}                 
             </div>
         {% endif %}
     </div>
+    </div>
+    <!-- Menú End -->
+
 {% endblock %}

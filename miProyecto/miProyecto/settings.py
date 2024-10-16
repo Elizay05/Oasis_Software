@@ -27,8 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = ["http://elizay05.pythonanywhere.com"]
-CSRF_COOKIE_SECURE = True
+
+# PARA MOVILES
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 # Application definition
 
@@ -42,7 +44,8 @@ INSTALLED_APPS = [
     'Oasis',
     'rest_framework',
     'django.contrib.humanize',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -53,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'miProyecto.urls'
@@ -121,11 +125,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static/'
 
-MEDIA_URL = '/Oasis/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = 'Oasis/'
+MEDIA_ROOT = BASE_DIR / 'media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -135,6 +139,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 FORMAT_MODULE_PATH = [
     "Oasis.formats"
 ]
+
+# Configuración de correo
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "sayiis2005@gmail.com"
+EMAIL_HOST_PASSWORD = "sktmrfunzftfeped"
+
 
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'Oasis.utils.custom_exception_handler',
@@ -150,29 +163,4 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = "Oasis.Usuario"
 AUTH_PROFILE_MODULE = "Oasis.Usuario"
 
-# Security settings
-SECURE_BROWSER_XSS_FILTER = True
-X_FRAME_OPTIONS = 'DENY'
-SECURE_CONTENT_TYPE_NOSNIFF = True
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
 
-# Logging configuration
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'debug.log',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
-}
