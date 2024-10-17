@@ -3205,8 +3205,8 @@ def descargar_pdf_pedido(request, id):
         historial_pedido = HistorialPedido.objects.get(pk=id)
         historial_detalles_pedido = HistorialDetallePedido.objects.filter(historial_pedido=historial_pedido)
 
-        locale.setlocale(locale.LC_TIME, 'es_CO.utf8')
-        fecha_actual = datetime.now().strftime('%d de %B de %Y')
+        meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
+        fecha_actual = datetime.now().strftime(f'%d de {meses[datetime.now().month - 1]} de %Y')
 
         html_string = render_to_string('Oasis/pdf/factura_pedido_pdf_template.html', {
             'historial_pedido': historial_pedido,
@@ -3528,7 +3528,8 @@ def descargar_pdf_ganancias_evento(request, id):
     locale.setlocale(locale.LC_TIME, 'es_CO.utf8')
 
     # Obtener la fecha actual en el formato "1 de febrero de 2023"f
-    fecha_actual = datetime.now().strftime('%d de %B de %Y')
+    meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
+    fecha_actual = datetime.now().strftime(f'%d de {meses[datetime.now().month - 1]} de %Y')
     
     html_string = render_to_string('Oasis/pdf/ganancia_evento_pdf_template.html', {'evento': evento, 'request': request, 'fecha_actual':fecha_actual})
 
@@ -3547,10 +3548,10 @@ def reporte_mesas(request):
     logueo = request.session.get("logueo", False)
     user = Usuario.objects.get(pk=logueo["id"])
     mesas = Mesa.objects.all()
+
     context = {
         'user': user,
         'mesas': mesas,
-        'fecha_actual': datetime.now().strftime('%d de %B de %Y'),
         'url': "reporte_mesas"
     }
     return render(request, 'Oasis/reportes/reporte_mesas.html', context)
@@ -3562,7 +3563,8 @@ def descargar_pdf_mesas(request, id):
     locale.setlocale(locale.LC_TIME, 'es_CO.utf8')
 
     
-    fecha_actual = datetime.now().strftime('%d de %B de %Y')
+    meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
+    fecha_actual = datetime.now().strftime(f'%d de {meses[datetime.now().month - 1]} de %Y')
    
     html_string = render_to_string('Oasis/pdf/reporte_mesa_pdf.html', {'mesa': mesa, 'request': request,'fecha_actual': fecha_actual})
     
