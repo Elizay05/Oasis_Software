@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function() {
             total_general: totalGeneral
         };
 
-        fetch(`http://54.160.212.15/comprar_entradas/${eventoId}/`, {
+        fetch(`http://54.205.201.204/comprar_entradas/${eventoId}/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -193,7 +193,7 @@ document.getElementById('confirmarReservaBtn').addEventListener('click', functio
         total_general: totalGeneral
     };
 
-    fetch(`http://54.160.212.15/reservar_mesa/${eventoId}/`, {
+    fetch(`http://54.205.201.204/reservar_mesa/${eventoId}/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
