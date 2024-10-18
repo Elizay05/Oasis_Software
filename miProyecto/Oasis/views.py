@@ -3524,9 +3524,6 @@ def ganancias_eventos(request):
 def descargar_pdf_ganancias_evento(request, id):
     evento = Evento.objects.get(id=id)
     
-    # Establecer el locale en español
-    locale.setlocale(locale.LC_TIME, 'es_CO.utf8')
-
     # Obtener la fecha actual en el formato "1 de febrero de 2023"f
     meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
     fecha_actual = datetime.now().strftime(f'%d de {meses[datetime.now().month - 1]} de %Y')
@@ -3559,10 +3556,7 @@ def reporte_mesas(request):
 @rol_requerido([1])
 def descargar_pdf_mesas(request, id):
     mesa = Mesa.objects.get(id=id)
-     # Establecer el locale en español
-    locale.setlocale(locale.LC_TIME, 'es_CO.utf8')
 
-    
     meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
     fecha_actual = datetime.now().strftime(f'%d de {meses[datetime.now().month - 1]} de %Y')
    
